@@ -1,70 +1,73 @@
-# Getting Started with Create React App
+<!-- AccordiaNestify -->
+AccordiaNestify is a versatile React component designed to bring nested accordion functionality to your web applications. Organize and present hierarchical data in an intuitive and visually appealing manner with ease.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<!-- Installation -->
+Install AccordiaNestify in your project using npm:
+npm install
 
-## Available Scripts
+<!-- Usage -->
+Integrating AccordiaNestify into your project is straightforward. Import the component and provide the necessary props, such as the API endpoint for fetching data.
 
-In the project directory, you can run:
+useEffect(() => {
+   <!-- Fetch industries data from the backend API -->
+ <!-- Use your own API below endpoints to fetch the respective data you want from your backend -->
+    axios.get('') 
+   .then((response) => {
+        let temp = response?.data?.result?.data
+        console.log("res",temp);
+        setIndustries(temp);
+      })
+      .catch(error => {
+        console.error('Error fetching industries data:', error);
+      });
+  }, [title]);
+  
+  <!-- API Data -->
+AccordiaNestify fetches data from an external API to dynamically populate the nested accordions. Ensure your API provides data in the expected structure.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+ <!-- API Response -->
+res (37) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+App.js:78 count 7
+App.js:78 count 7
+App.js:34 resdom (563) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, …]
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+<!-- Other Use Cases -->
+Beyond industries, domains, and skills, AccordiaNestify can be adapted for various use cases. Here are some examples:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Project Hierarchy
+Organize projects, subprojects, and tasks in a structured manner.
 
-### `npm run build`
+Course Curriculum
+Display a course outline with subjects, subtopics, and lessons.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Location Hierarchy
+Represent geographical hierarchies, such as continents, countries, and cities.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Organizational Structure
+Illustrate company hierarchies, departments, teams, and roles.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Event Schedules
+Showcase event schedules with main events, sessions, and activities.
 
-### `npm run eject`
+For more examples and customization options, explore the extensive versatility of AccordiaNestify.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<!-- Customization -->
+AccordiaNestify is highly customizable. Tailor the appearance to match your application's design using Material-UI integration.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<!-- Contributing -->
+Contributions are welcome! If you have ideas for improvements or discover any issues, please open an issue or submit a pull request.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<!-- License -->
+AccordiaNestify is licensed under Arjunramesh420.
 
-## Learn More
+Feel free to further customize the README based on your specific project details and requirements.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
