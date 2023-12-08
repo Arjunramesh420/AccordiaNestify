@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import SubAccordion from './SubAccordian';
-
+import SubAccordian from './SubAccordian'; 
 import axios from 'axios';
 
-export default function MainAccordion({ title, subAccordion }) {
+export default function MainAccordion({title,subTitle}) {
   const mainAccordionStyles = {
     backgroundColor: 'gray',
   };
@@ -15,7 +14,7 @@ export default function MainAccordion({ title, subAccordion }) {
     fontWeight: 'bold',
   };
 
-  const [industries, setIndustries] = useState([]);
+  const [industries, setIndustries] = useState([title]);
 
   useEffect(() => {
     // Fetch industry data from the backend API
@@ -26,11 +25,11 @@ export default function MainAccordion({ title, subAccordion }) {
       .catch(error => {
         console.error('Error fetching industry data:', error);
       });
-  }, []);
+  }, [title,subTitle]);
 
   return (
     <div>
-      {industries.map((industry, index) => (
+      {Array.isArray(industries) && industries.map((industry,index) => (
         <Accordion key={index} style={mainAccordionStyles} square={true}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel-content" id="panel-header">
             <Typography variant="h6" style={titleStyles}>
@@ -39,7 +38,7 @@ export default function MainAccordion({ title, subAccordion }) {
           </AccordionSummary>
           <AccordionDetails>
             {industry.domains?.map((domain, domainIndex) => (
-              <SubAccordion key={domainIndex} subTitle={domain.Domain} chips={domain.skillset} />
+              <SubAccordian key={domainIndex} subTitle={domain.Domain} chips={domain.skillSet} />
             ))}
           </AccordionDetails>
         </Accordion>
