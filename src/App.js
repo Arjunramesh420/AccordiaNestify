@@ -1,96 +1,89 @@
-import MainAccordian from './MainAccordian';
-import { Grid } from '@mui/material';
+import React from 'react'
+import IndusDomSkillList from './IndusDomSkillList.js'
+import { useState , useEffect } from 'react';
 import axios from 'axios';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useState, useEffect } from 'react';
 
-function App(title,subTitle) {
-
-  // functions for fetching industries, domains 
-  // State for industries
-  const [industries, setIndustries] = useState([]);
-    
-  useEffect(() => {
-    // Fetch industries data from the backend API
-    axios.get('https://app.gigleji.com/api/industry/')
-      .then((response) => {
-        let temp = response?.data?.result?.data
-        console.log("res",temp);
-        setIndustries(temp);
-      })
-      .catch(error => {
-        console.error('Error fetching industries data:', error);
-      });
-  }, [title]);
-  
-  // State for domains
-  const [domains, setDomains] = useState([]);
-  useEffect(() => {
-    // Fetch domains data for the specific industry from the backend API
+const App = () => {
+  const [industryData, setIndustryData] = useState();
+useEffect(()=>{
+    axios.get(`https://app.gigleji.com/api/industry/`)
+    .then((response)=>{
+      let temp = response?.data?.result?.data;
+      // console.log("indresponse",temp);
+      setIndustryData(temp)
+    })
+    .catch(error=>{
+      console.error('Some Error occured during fetching the data',error)
+    });
+  },[])
+ 
+  const [domSkillData, setDomSkillData] = useState();
+  useEffect(()=>{
     axios.get(`https://app.gigleji.com/api/domain/`)
-      .then((response) => {
-        let temp = response?.data?.result?.data
-        console.log("resdom",temp)
-        setDomains(temp);
-      })
-      .catch(error => {
-        console.error('Error fetching domains data:', error);
-      });
-  }, [subTitle]); // <-- Using 'subTitle' as a dependency
+    .then((response)=>{
+      let temp = response?.data?.result?.data;
+      // console.log("domskresponse",temp);
+      setDomSkillData(temp)
+    })
+    .catch(error=>{
+      console.error('Some Error occured during fetching the data',error)
+    });
+  },[])
+
+//Accordian function (showmore/showless button)
+// const initialAccordionsToShow = 7;
+const defaultAccordionsToShow = 7;
+  const [accordionsToShow, setAccordionsToShow] = useState(defaultAccordionsToShow);
   
-  //Accordian function (showmore/showless button)
-  
-  const [visibleMainAccordions, setVisibleMainAccordions] = useState(7); // Initial number of visible accordions
-  
-    const showMainAccordions = () => {
-      setVisibleMainAccordions((prevVisibleMainAccordions) => prevVisibleMainAccordions + 7);
-    };
-    const showLessMainAccordions = () => {
-      setVisibleMainAccordions((prevVisibleMainAccordions) =>  prevVisibleMainAccordions - 7);
-    };
+  const loadMoreAccordions = () => {
+    setAccordionsToShow(accordionsToShow + 7);
+  };
 
+  const showLessAccordions = () => {
+    setAccordionsToShow(Math.max(accordionsToShow - 7, defaultAccordionsToShow));
+  };
 
-{/* Industry domain skills */}
-<div className="container-fluid" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'hsla(0, 0%, 0%, 0.852)' }}>
-  <Grid className="container" style={{ width: '100%' }}>
-    <h1 className="text-center text-white pt-4 underln" style={{ fontSize: '40px', width:'95%'}}>
-      Industries - Domain - Skills
-      {/* <span style={{ content: '', position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', borderBottom: '3px solid brown', width: '75%' }}></span> */}
-    </h1>
+  return (
+    <div>
+      {/* Industry domain skills */}
 
-    {industries.slice(0, visibleMainAccordions).map((industry, index) => {
-            // Filter domains belonging to the current industry
-            const industryDomains = domains.filter((domain) => domain.Industry === industry.Industry);
+<div>
+      <h1 className="text-center text-black pt-4 underln" style={{ fontSize: '40px', position: 'relative', marginBottom: '10px' }}>Industry-Domain-Skills</h1>
 
-      return (
-        <div key={index} style={{ width: '100%', marginBottom: '15px' }}>
-          
-           <MainAccordian
-          title={industry.Industry}
-            subAccordian={industryDomains.map((domain) => ({
-              subTitle: domain.Domain,
-              chips: domain.skillSet,
-            
-              
-            }))}>
-           
-          </MainAccordian>   
-          
-        </div>
-  
-      );
-    })}
-      <div>
-       {console.log("count",visibleMainAccordions)}
-   {visibleMainAccordions  <= industries.length ? (
-<button type="button" className="btn btn-danger"  onClick={showMainAccordions}>See More</button>):
-(<button type="button" className="btn btn-danger" onClick={showLessMainAccordions}>See less</button>)}
-     </div> 
-  </Grid> 
-  </div>    
+      {industryData?.slice(0, accordionsToShow).map((industry, index) => {
+        const domainDataAccordingToIndustry = domSkillData
+          ?.filter((domain) => domain.Industry === industry.Industry);
 
+        return (
+          <IndusDomSkillList
+            key={index}
+            title={industry.Industry}
+            subTitles={domainDataAccordingToIndustry?.map(item => item.Domain) || []}
+            chipDatas={domainDataAccordingToIndustry?.map(item => item.skillSet) || []}
+          />
+        );
+      })}
+{industryData && industryData.length > defaultAccordionsToShow && (
+  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+    <button 
+    onClick={loadMoreAccordions}
+    style={{ backgroundColor: 'green', color: 'white', marginRight: '10px' }}
+    >
+      Load More
+    </button>
+    {accordionsToShow > defaultAccordionsToShow && (
+      <button 
+      onClick={showLessAccordions}
+      style={{ backgroundColor: 'blue', color: 'white' }}
+      >
+        Show Less
+      </button>
+    )}
+  </div>
+)}
+    </div>
+    </div>
+  )
 }
 
-   
-
-export default App;
+export default App
